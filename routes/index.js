@@ -69,22 +69,32 @@ router.get('/checkouts/:id', function (req, res) {
 
 router.post('/checkouts', function (req, res) {
   var transactionErrors;
-  var amount = req.body.amount; // In production you should not take amounts directly from clients
+  var amount = req.body.amount;
+  var id = req.body.customerID;
   var nonce = req.body.payment_method_nonce;
 
-  gateway.transaction.sale({
-    amount: amount,
-    paymentMethodNonce: nonce,
-    options: {
-      submitForSettlement: true
-    }
-  }, function (err, result) {
-    if (result.success || result.transaction) {
-      res.redirect('checkouts/' + result.transaction.id);
-    } else {
-      transactionErrors = result.errors.deepErrors();
-      req.flash('error', {msg: formatErrors(transactionErrors)});
+  gateway.paymentMethod.create({
+    customerId: id,
+    paymentMethodNonce: nonce
+  }, function (err) {
+    if (err) {
       res.redirect('checkouts/new');
+    } else {
+      gateway.transaction.sale({
+        amount: amount,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true
+        }
+      }, function (error, result) {
+        if (result.success || result.transaction) {
+          res.redirect('checkouts/' + result.transaction.id);
+        } else {
+          transactionErrors = result.errors.deepErrors();
+          req.flash('error', {msg: formatErrors(transactionErrors)});
+          res.redirect('checkouts/new');
+        }
+      });
     }
   });
 });

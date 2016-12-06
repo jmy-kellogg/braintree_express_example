@@ -14,7 +14,6 @@ function Demo(config) {
   };
   this.focusClass = 'has-focus';
   this.valueClass = 'has-value';
-
   this.initialize();
 }
 

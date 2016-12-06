@@ -23,21 +23,42 @@ describe('Checkout index page', function () {
 
   it('generates a client token', function (done) {
     api.get('/checkouts/new').end(function (err, res) {
-      expect(res.text).to.match(/var token = \"[\w=]+\";/);
+      expect(res.text).to.match(/var authorization = \"[\w=]+\";/);
       done();
     });
   });
 
   it('includes the checkout form', function (done) {
     api.get('/checkouts/new').end(function (err, res) {
-      expect(res.text).to.match(/<form id="payment-form"/);
+      expect(res.text).to.match(/<form id="cardForm"/);
       done();
     });
   });
 
-  it('includes the dropin div', function (done) {
+  it('includes the number field', function (done) {
     api.get('/checkouts/new').end(function (err, res) {
-      expect(res.text).to.match(/<div id="bt-dropin"/);
+      expect(res.text).to.match(/<div id="card-number" class="hosted-field"/);
+      done();
+    });
+  });
+
+  it('includes the expiration date field', function (done) {
+    api.get('/checkouts/new').end(function (err, res) {
+      expect(res.text).to.match(/<div id="expiration-date" class="hosted-field"/);
+      done();
+    });
+  });
+
+  it('includes the cvv field', function (done) {
+    api.get('/checkouts/new').end(function (err, res) {
+      expect(res.text).to.match(/<div id="cvv" class="hosted-field"/);
+      done();
+    });
+  });
+
+  it('includes the postal-code field', function (done) {
+    api.get('/checkouts/new').end(function (err, res) {
+      expect(res.text).to.match(/<div id="postal-code" class="hosted-field"/);
       done();
     });
   });

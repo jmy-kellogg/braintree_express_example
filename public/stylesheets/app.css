@@ -5,7 +5,9 @@ html {
   -webkit-text-size-adjust: 100%; }
 
 body {
-  margin: 0; }
+  margin: 0; 
+  overflow: auto;
+}
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block; }
@@ -1084,7 +1086,8 @@ footer {
     max-width: 100%; }
 
 .content {
-  padding: 36px 12px; }
+  padding: 36px 12px;
+  }
   .content.slim, .content.compact {
     padding: 12px; }
   @media (min-width: 641px) {
@@ -1658,7 +1661,9 @@ td {
   padding: .6em 0 .6em .6em; }
 
 .checkout {
-  text-align: left; }
+  text-align: left;
+  overflow: auto;
+   }
   .checkout section {
     margin: 0;
     padding: 15px 0; }
